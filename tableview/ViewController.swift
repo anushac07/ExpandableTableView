@@ -24,14 +24,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         let nib = UINib(nibName: "CustomCell", bundle: nil)
+        let nib2 = UINib(nibName: "CustomCell2", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "CustomCell")
+        tableView.register(nib2, forCellReuseIdentifier: "CustomCell2")
         
        tableViewData = [cellData(opened: false, title: "post 1", Sectiondata: ["p1c1", "p1c2", "p1c3"]),
                                cellData(opened: false, title: "post 2", Sectiondata: ["p2c1", "p2c2"]),
                                cellData(opened: false, title: "post 3", Sectiondata: ["p3c1", "p3c2", "p3c3"]),
                                cellData(opened: false, title: "post 4", Sectiondata: ["p4c1"])]
-        
-        // Do any additional setup after loading the view.
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -57,12 +57,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             //cell.textLabel?.text = tableViewData[indexPath.section].title
             return cell
         }
-        else{ let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell") as! CustomCell
+        else{ let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell2") as! CustomCell2
         cell.customInit(text: tableViewData[indexPath.section].Sectiondata[indexPath.row - 1])
         return cell
     }
     }
     
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 107.0
+//    }
     
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
            if indexPath.row == 0 {

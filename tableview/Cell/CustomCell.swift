@@ -12,6 +12,8 @@ class CustomCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var contentLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -25,8 +27,10 @@ class CustomCell: UITableViewCell {
     
     func customInit(text: String) {
         self.titleLabel.text = text
+        self.contentLabel.text = "content"
         self.titleLabel.textColor = UIColor.darkGray
-       // self.contentView.backgroundColor = UIColor.lightGray
+        self.contentView.backgroundColor = UIColor(displayP3Red: 224.0/255.0, green: 224.0/255.0, blue: 224.0/255.0, alpha: 255.0/255.0)
+        
     }
     
 }
