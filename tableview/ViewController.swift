@@ -8,6 +8,28 @@
 
 import UIKit
 
+class Cell1: UITableViewCell {
+    
+    @IBOutlet weak var post_author: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var upvote: UILabel!
+    @IBOutlet weak var created_at: UILabel!
+    @IBOutlet weak var statusButton: UIButton!
+    func setExpanded() -> Void {
+       statusButton.setImage(UIImage(named: "icon"), for: .normal)
+    }
+    
+    func setCollapsed() -> Void {
+        statusButton.setImage(UIImage(named: "icond"), for: .normal)
+    }
+}
+
+class Cell2: UITableViewCell {
+    
+    @IBOutlet weak var comment_author: UILabel!
+    @IBOutlet weak var contentLabel: UILabel!
+}
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
      var tableViewData = [cellData]()
     
@@ -23,10 +45,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let nib = UINib(nibName: "CustomCell", bundle: nil)
+       /* let nib = UINib(nibName: "CustomCell", bundle: nil)
         let nib2 = UINib(nibName: "CustomCell2", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "CustomCell")
-        tableView.register(nib2, forCellReuseIdentifier: "CustomCell2")
+        tableView.register(nib2, forCellReuseIdentifier: "CustomCell2")*/
         
        tableViewData = [cellData(opened: false, title: "post 1", Sectiondata: ["p1c1", "p1c2", "p1c3"]),
                                cellData(opened: false, title: "post 2", Sectiondata: ["p2c1", "p2c2"]),
@@ -49,17 +71,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-             let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell") as! CustomCell
-            //else {
-              //  return UITableViewCell()}
-            cell.customInit(text: tableViewData[indexPath.section].title)
-            
-            //cell.textLabel?.text = tableViewData[indexPath.section].title
-            return cell
-        }
-        else{ let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell2") as! CustomCell2
-        cell.customInit(text: tableViewData[indexPath.section].Sectiondata[indexPath.row - 1])
-        return cell
+             let cell = tableView.dequeueReusableCell(withIdentifier: "cell1") as! Cell1
+                  
+                 cell.titleLabel.text = tableViewData[indexPath.section].title
+            if tableViewData[indexPath.section].opened == true {cell.setExpanded()}
+            else {cell.setCollapsed()}
+                 return cell
+             }
+             else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell2") as! Cell2
+                 cell.contentLabel.text = tableViewData[indexPath.section].Sectiondata[indexPath.row - 1]
+                 return cell
     }
     }
     
