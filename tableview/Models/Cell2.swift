@@ -16,6 +16,7 @@ class Cell2: UITableViewCell {
     func update(for comments: CommentDetails) {
         comment_author.text = comments.author
         contentLabel.text = comments.content
+        
     }
 }
 

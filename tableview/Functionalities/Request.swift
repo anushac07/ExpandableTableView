@@ -13,11 +13,11 @@ enum PostError: Error{
     case canNotProcessData
 }
 
-/*struct PostRequest {
+struct PostRequest {
     var resourceURL: URL
-    init ()  //initializer
+    init (uri: String)  //initializer
     {
-        let destinationURL = ""
+        let destinationURL = "https://glitter-web-app.herokuapp.com/api/\(uri)"
         guard let resourceURL = URL(string: destinationURL) else {fatalError()}
         
         self.resourceURL = resourceURL
@@ -34,8 +34,8 @@ enum PostError: Error{
             do{
                 //print(jsonData)
                 let decoder = JSONDecoder()
-                let postsResponse = try decoder.decode(DataResponse.self, from: jsonData)
-                let postDetails = postsResponse.data.posts
+                let postsResponse = try decoder.decode(Posts.self, from: jsonData)
+                let postDetails = postsResponse.data
                 print(postDetails)
                 compleation(.success(postDetails))
             }catch{
@@ -47,4 +47,4 @@ enum PostError: Error{
     }
     
     
-}*/
+}

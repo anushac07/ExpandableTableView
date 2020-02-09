@@ -9,8 +9,23 @@
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-   //  var tableViewData = [cellData]()
-     var postsData = [PostDetails]()
+   /*  var tableViewData = [cellData]() {
+         didSet {
+             DispatchQueue.main.async {
+                 self.tableView.reloadData()
+             }
+         }
+     } */
+    var postsData = [PostDetails]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+   
+       
+
     
    // var data = ["A", "B", "C"]
   //  var p: Int!
@@ -24,17 +39,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       /* let nib = UINib(nibName: "CustomCell", bundle: nil)
-        let nib2 = UINib(nibName: "CustomCell2", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "CustomCell")
-        tableView.register(nib2, forCellReuseIdentifier: "CustomCell2")*/
+
+        self.tableView.estimatedRowHeight = 80
+        self.tableView.rowHeight = UITableView.automaticDimension
+      
         
-     /*  tableViewData = [cellData(opened: false, title: "post 1", Sectiondata: ["p1c1", "p1c2", "p1c3"]),
+      /* tableViewData = [cellData(opened: false, title: "post 1", Sectiondata: ["p1c1", "p1c2", "p1c3"]),
                                cellData(opened: false, title: "post 2", Sectiondata: ["p2c1", "p2c2"]),
                                cellData(opened: false, title: "post 3", Sectiondata: ["p3c1", "p3c2", "p3c3"]),
                                cellData(opened: false, title: "post 4", Sectiondata: ["p4c1"])] */
         
-        decodess { [weak self] result in
+        
+         let postRequests = PostRequest(uri: "get_all_posts")
+        postRequests.getPosts { [weak self] result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -43,16 +60,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
             }
         }
+     //   tableView.reloadData()
+        
+     
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-      //  return tableViewData.count
+      // return tableViewData.count
         return postsData.count
     }
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
        // if tableViewData[section].opened == true {
-         //   return tableViewData[section].Sectiondata.count + 1
+       //     return tableViewData[section].Sectiondata.count + 1
        if postsData[section].opened == true {
         return postsData[section].comment_list.count + 1
         }
@@ -65,12 +85,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if indexPath.row == 0 {
              let cell = tableView.dequeueReusableCell(withIdentifier: "cell1") as! Cell1
                   
-                // cell.titleLabel.text = tableViewData[indexPath.section].title
-            // if tableViewData[indexPath.section].opened == true {cell.setExpanded()}
+        //         cell.titleLabel.text = tableViewData[indexPath.section].title
+        //     if tableViewData[indexPath.section].opened == true {cell.setExpanded()}
             
            // cell.post_author.text = postsData[indexPath.section].author
               //      cell.titleLabel.text = postsData[indexPath.section].title
             cell.update(for: postsData[indexPath.section])
+                
+           //     if tableViewData[indexPath.section].opened == true {cell.setExpanded()}
            
             if postsData[indexPath.section].opened == true {cell.setExpanded()}
             else {cell.setCollapsed()}
@@ -79,7 +101,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
              else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell2") as! Cell2
             cell.update(for: postsData[indexPath.section].comment_list[indexPath.row - 1])
-                // cell.contentLabel.text = //tableViewData[indexPath.section].Sectiondata[indexPath.row - 1]
+            //     cell.contentLabel.text = tableViewData[indexPath.section].Sectiondata[indexPath.row - 1]
                  //   postsData[indexPath.section].comment_list[indexPath.row - 1].author
                  return cell
     }
@@ -91,8 +113,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
            if indexPath.row == 0 {
-          // if tableViewData[indexPath.section].opened == true {
-            //  tableViewData[indexPath.section].opened = false
+       //    if tableViewData[indexPath.section].opened == true {
+        //      tableViewData[indexPath.section].opened = false
             if postsData[indexPath.section].opened == true {
                postsData[indexPath.section].opened = false
                let sections = IndexSet.init(integer: indexPath.section)
@@ -100,7 +122,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
                }
            else {
-              // tableViewData[indexPath.section].opened = true
+           //    tableViewData[indexPath.section].opened = true
                 postsData[indexPath.section].opened = true
                let sections = IndexSet.init(integer: indexPath.section)
                          tableView.reloadSections(sections, with: .none)
@@ -114,22 +136,46 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let getIndex = scSegment.selectedSegmentIndex
         switch getIndex {
         case 0:
-            view.backgroundColor = UIColor.red
+          //  view.backgroundColor = UIColor.red
             
            /* tableViewData = [cellData(opened: false, title: "post 1", Sectiondata: ["p1c1", "p1c2", "p1c3"]),
                                           cellData(opened: false, title: "post 2", Sectiondata: ["p2c1", "p2c2"]),
                                           cellData(opened: false, title: "post 3", Sectiondata: ["p3c1", "p3c2", "p3c3"]),
                                           cellData(opened: false, title: "post 4", Sectiondata: ["p4c1"])] */
-        tableView.reloadData()
+        let postRequests = PostRequest(uri: "get_all_posts")
+               postRequests.getPosts { [weak self] result in
+                   switch result {
+                   case .failure(let error):
+                       print(error)
+                   case .success(let holidays):
+                       self?.postsData = holidays
+                       
+                   }
+               }
+        
+        
+        //tableView.reloadData()
+          //  view.backgroundColor = UIColor.red
         case 1:
             
            /* tableViewData = [cellData(opened: false, title: "post 1", Sectiondata: ["p1c1", "p1c2", "p1c3"]),
             cellData(opened: false, title: "post 2", Sectiondata: ["p2c1", "p2c2"]),
             cellData(opened: false, title: "post 3", Sectiondata: ["p3c1", "p3c2", "p3c3"])] */
             
+            let postRequests = PostRequest(uri: "trending?offset=0&limit=4")
+                   postRequests.getPosts { [weak self] result in
+                       switch result {
+                       case .failure(let error):
+                           print(error)
+                       case .success(let holidays):
+                           self?.postsData = holidays
+                           
+                       }
+                   }
             
-            tableView.reloadData()
-            view.backgroundColor = UIColor.yellow
+            
+          //  tableView.reloadData()
+       //     view.backgroundColor = UIColor.yellow
             
         default:
             print ("Nothing")

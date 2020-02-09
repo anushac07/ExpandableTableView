@@ -17,41 +17,37 @@ struct cellData
 }
 
 /** Sample json file. Do API call to get actual data */
-let jsonString = """
+/*let jsonString = """
 { "data": {
   "posts": [
     {
         "author": "John",
         "opened": false,
-        "comment_list": [{"author": "fname", "content": "contents"},{"author": "lname", "content": "contents2"}],
-        "content": "Post body content",
+        "comment_list": [{"author": "Ananya", "content": "I'm replying to this comment!"},{"author": "Anusha", "content": "Thanks for that"}],
+        "content": "Women for the win!",
         "post_id": 2,
-        "title": "Heading",
-        "upvotes": 5
+        "title": "Little Women",
+        "upvotes": 150
     },
     {
         "author": "Anusha",
         "opened": false,
         "comment_list": [],
-        "content": "Post body content1",
+        "content": "I think I should be a director.",
         "post_id": 3,
-        "title": "Heading1",
+        "title": "Change in film-making",
         "upvotes": 9
     },
 ]
 }
 }
 """
+*/
 
 
-
-struct DataResponse: Decodable {
-    var data: Posts
-    
-}
 
 struct Posts: Decodable {
-    var posts: [PostDetails]
+    var data: [PostDetails]
 }
 
 struct PostDetails: Decodable {
@@ -59,7 +55,7 @@ struct PostDetails: Decodable {
     var opened: Bool
     var comment_list: [CommentDetails]
     var content: String
-   // var time: String
+    var time: Int
     var title: String
     var upvotes: Int
     
@@ -70,7 +66,7 @@ struct CommentDetails: Decodable {
     var content: String
 }
 
-func decodess(compleation: @escaping(Result<[PostDetails], PostError>) ->Void){
+/*func decodess(compleation: @escaping(Result<[PostDetails], PostError>) ->Void){
 guard let jsonData = jsonString.data(using: .utf8) else {
     compleation(.failure(.noDataAvailable))
     return
@@ -92,4 +88,4 @@ catch
     
     }
     
-}
+}*/

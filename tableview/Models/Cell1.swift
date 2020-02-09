@@ -15,6 +15,7 @@ class Cell1: UITableViewCell {
     @IBOutlet weak var upvote: UILabel!
     @IBOutlet weak var created_at: UILabel!
     @IBOutlet weak var statusButton: UIButton!
+    @IBOutlet weak var context: UILabel!
     func setExpanded() -> Void {
        statusButton.setImage(UIImage(named: "icon"), for: .normal)
     }
@@ -26,5 +27,10 @@ class Cell1: UITableViewCell {
     func update(for posts: PostDetails) {
         post_author.text = posts.author
         titleLabel.text = posts.title
+        created_at.text = String(posts.time)+" hours ago"
+        upvote.text = String(posts.upvotes)+" likes"
+        context.text = posts.content
+        
+        
     }
 }
